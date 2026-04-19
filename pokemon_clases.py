@@ -9,7 +9,7 @@ class Pokemon(ABC):
         self.__energia_actual = energia_maxima
         self.__energia_maxima = energia_maxima
         self.defendiendo = False
-        self.paralizado = False
+     
 
     @property
     def hp_actual(self):
