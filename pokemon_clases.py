@@ -105,18 +105,15 @@ class PokemonPlanta(Pokemon):
 
 class PokemonElectrico(Pokemon):
     def atacar(self, oponente):
+      
         if self.energia_actual < 15:
             return 0
-
         self.energia_actual -= 15
         daño = 15
-
-        if random.random() < 0.2:
-            oponente.paralizado = True
-
         if oponente.defendiendo:
             daño //= 2
             oponente.defendiendo = False
 
         oponente.hp_actual -= daño
         return daño
+            
