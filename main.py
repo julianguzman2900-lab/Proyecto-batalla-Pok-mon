@@ -50,45 +50,49 @@ def turno(jugador, oponente, cpu=False):
                 print("Debes ingresar un número")
                 accion = 0  # fuerza una opción inválida para repetir el ciclo
 
-        if accion == 1:
-            daño = jugador.atacar(oponente)
-            print(f"{jugador.nombre} hizo {daño} de daño")
-            break  # break rompe el while True y termina el turno
+        if accion == 1:  # opción atacar
+            daño = jugador.atacar(oponente)  # ejecuta el ataque
+            print(f"{jugador.nombre} hizo {daño} de daño")  # muestra el daño causado
+            print("--------------------------------------")
+            break  # termina el turno
 
-        elif accion == 2:
-            jugador.defender()
-            print(f"{jugador.nombre} se está defendiendo")
-            break
+        elif accion == 2:  # opción defender
+            jugador.defender()  # activa defensa
+            print(f"{jugador.nombre} se está defendiendo")  # mensaje
+            print("--------------------------------------") 
+            break  # termina el turno
 
-        elif accion == 3:
-            jugador.descansar()
-            print(f"{jugador.nombre} recupera energía")
-            break
+        elif accion == 3:  # opción descansar
+            jugador.descansar()  # recupera energía
+            print(f"{jugador.nombre} recupera energía")  # mensaje
+            print("--------------------------------------")
+            break  # termina el turno
 
         else:
-            print("Opción inválida, intenta otra vez")
+            print("Opción inválida, intenta otra vez")  # si la opción no es válida
 
 
-def batalla(jugador1, jugador2, contra_cpu=False):
-    print("\n¡COMIENZA LA BATALLA!\n")
 
-    while jugador1.hp_actual > 0 and jugador2.hp_actual > 0:
-        turno(jugador1, jugador2)
+def batalla(jugador1, jugador2, contra_cpu=False):  # controla toda la batalla
+    print("\n¡COMIENZA LA BATALLA!\n")  # mensaje inicial
+    print(f"{jugador1.nombre} VS {jugador2.nombre} ")  # muestra los Pokémon que van a pelear
 
-        if jugador2.hp_actual <= 0:
-            break
+    while jugador1.hp_actual > 0 and jugador2.hp_actual > 0:  # continúa mientras ambos tengan vida
+        turno(jugador1, jugador2)  # turno del jugador 1
 
-        turno(jugador2, jugador1, cpu=contra_cpu)
+        if jugador2.hp_actual <= 0:  # si jugador 2 pierde toda su vida
+            break  # termina la batalla
 
-    if jugador1.hp_actual > 0:
-        print(f"\n{jugador1.nombre} gana!")
+        turno(jugador2, jugador1, cpu=contra_cpu)  # turno del jugador 2 o CPU
+
+    if jugador1.hp_actual > 0:  # verifica quién sigue con vida
+        print(f"\n{jugador1.nombre} gana!")  # gana jugador 1
     else:
-        print(f"\n{jugador2.nombre} gana!")
-
+        print(f"\n{jugador2.nombre} gana!")  # gana jugador 2
 
 def main():
     print("="*45)
-    print("SIMULADOR DE BATALLAS POKÉMON")
+    print("      SIMULADOR DE BATALLAS POKÉMON")
     print("="*45)
 
     print("Seleccione el modo de juego")
@@ -102,21 +106,21 @@ def main():
         print("Debes ingresar un número")
         return
 
-    mostrar_catalogo_disponible()
+    mostrar_catalogo_disponible()  # muestra lista de Pokémon disponibles
 
-    jugador1 = elegir_pokemon("Jugador 1")
+    jugador1 = elegir_pokemon("Jugador 1")  # jugador 1 elige
 
-    if opcion_batalla == 1:
-        jugador2 = elegir_pokemon("Jugador 2")
-        batalla(jugador1, jugador2)
+    if opcion_batalla == 1:  # modo jugador vs jugador
+        jugador2 = elegir_pokemon("Jugador 2")  # jugador 2 elige
+        batalla(jugador1, jugador2)  # inicia batalla
 
     elif opcion_batalla == 2:
         # random.choice elige un elemento aleatorio de una lista
         # list(CATALOGO_POKEMON) convierte las claves del diccionario en lista
         numero = random.choice(list(CATALOGO_POKEMON))
-        jugador2 = crear_pokemon(CATALOGO_POKEMON[numero])
-        print(f"La computadora eligió a {jugador2.nombre}")
-        batalla(jugador1, jugador2, contra_cpu=True)
+        jugador2 = crear_pokemon(CATALOGO_POKEMON[numero])  # crea el Pokémon de la CPU
+        print(f"La computadora eligió a {jugador2.nombre}")  # muestra elección
+        batalla(jugador1, jugador2, contra_cpu=True)  # inicia batalla contra CPU
 
     else:
         print("Opción no válida")
